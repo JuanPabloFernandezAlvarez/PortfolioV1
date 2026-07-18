@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Entities;
+
 
 namespace Application.Abstractions
 {
-    internal interface IExperienceRepository
+    public interface IExperienceRepository
     {
+        List<Experience> GetAll();
+        Experience? GetById(int id);
+        int Create(Experience exp);
+        bool Update(Experience exp);
+        bool Delete(Experience exp);
     }
 }

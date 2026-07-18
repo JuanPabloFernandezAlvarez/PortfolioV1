@@ -1,6 +1,7 @@
 ﻿using Application.Services;
 using Contrats.Response;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace PortfolioV1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+   
     public class ExperienceController : ControllerBase
 
     {
@@ -39,7 +41,7 @@ namespace PortfolioV1.Controllers
             return Ok(experience);
         }
 
-
+        [Authorize]
         [HttpPost]
         public ActionResult Create([FromBody] ExperienceForCreationAndUpdateRequest experience)
         {
@@ -55,6 +57,10 @@ namespace PortfolioV1.Controllers
             if (experience.Description   == null)
             {
                 return BadRequest("El campo description es requerido");
+            }
+            if (experience.Summary == null)
+            {
+                return BadRequest("El campo summary es requerido");
             }
             if (experience.Title.Length < 3 || experience.Title.Length > 25)
             {
@@ -83,6 +89,7 @@ namespace PortfolioV1.Controllers
                 return StatusCode(500, "Error interno al crear la experiencia");
             }
         }
+        [Authorize]
         [HttpPut("{id}")]
         public ActionResult Update([FromRoute] int id, [FromBody] ExperienceForCreationAndUpdateRequest request)
         {
@@ -104,6 +111,10 @@ namespace PortfolioV1.Controllers
             if (request.Description == null)
             {
                 return BadRequest("La descripción es requerida");
+            }
+            if (request.Summary == null)
+            {
+                return BadRequest("El campo summary es requerido");
             }
 
             if (request.Description.Length < 1 || request.Description.Length > 250)
@@ -134,6 +145,7 @@ namespace PortfolioV1.Controllers
                 return StatusCode(500, "Error interno al actualizar la experiencia");
             }
         }
+        [Authorize]
         [HttpDelete("{id}")]
         public ActionResult Delete([FromRoute] int id)
         {
