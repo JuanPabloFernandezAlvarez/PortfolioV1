@@ -11,9 +11,10 @@ namespace Contrats.Response
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "El titulo de la experiencia es requerida") ]
+        [StringLength(100, MinimumLength = 3, ErrorMessage = "El título debe tener entre 3 y 100 caracteres.")]
         public string Title { get; set; }
         [Required(ErrorMessage = "La descripción de la experiencia es requerida")]
-        [MaxLength(100)]
+        [MaxLength(250, ErrorMessage = "La descripción no puede exceder los 250 caracteres.")]
         public string Description { get; set; }
         [Required(ErrorMessage = "El resumen de la experiencia es requerido")]
         public string Summary { get; set; }
