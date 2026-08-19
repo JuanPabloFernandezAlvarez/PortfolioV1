@@ -46,6 +46,13 @@ jobs:
       contents: read #This is required for actions/checkout
 
     steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
@@ -57,6 +64,13 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_76C852FD757048B28A5AB197689FE42C }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_EC53DF0A679A418F9E9548B6641B67E2 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_095194D44A53444EABFA634977787D56 }}
+      - name: Install dotnet-ef tool
+        run: dotnet tool install --global dotnet-ef --version 8.*
+          
+      - name: Update database with EF Core migrations
+        run: dotnet ef database update --project PortfolioV1/PortfolioV1.csproj --startup-project PortfolioV1/PortfolioV1.csproj
+        env:
+          ASPNETCORE_ENVIRONMENT: Production
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
