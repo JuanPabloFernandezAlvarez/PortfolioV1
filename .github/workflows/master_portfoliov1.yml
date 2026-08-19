@@ -23,8 +23,11 @@ jobs:
         with:
           dotnet-version: '8.x'
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
+      - name: Restore dependencies
+        run: dotnet restore PortfolioV1.slnx
+
+      - name: Build application
+        run: dotnet build PortfolioV1.slnx --configuration Release --no-restore
 
       - name: dotnet publish
         run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
