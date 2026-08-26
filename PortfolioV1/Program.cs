@@ -25,7 +25,7 @@ builder.Services.AddSwaggerGen(setupAction =>
 });
 
     builder.Services.AddDbContext<PortfolioDbContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnectionString"),
+        options.UseNpgsql(builder.Configuration.GetConnectionString("DbConnectionString"),
                              sql => sql.MigrationsAssembly("Infrastructure")));
     builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
