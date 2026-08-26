@@ -21,6 +21,7 @@ namespace Application.Services
         {
             var experiencesList = _experienceRepository.GetAll().Select(e => new ExperienceResponse
             {
+                Id = e.Id,
                 Title = e.Title,
                 Description = e.Description,
                 Summary = e.Summary,
@@ -33,6 +34,7 @@ namespace Application.Services
             var experience = _experienceRepository.GetById(id) is Experience exp ?
     new ExperienceResponse()
     {
+        Id = exp.Id,
         Title = exp.Title,
         Description = exp.Description,
         Summary = exp.Summary,

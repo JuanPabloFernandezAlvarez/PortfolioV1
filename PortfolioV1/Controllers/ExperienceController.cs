@@ -62,9 +62,9 @@ namespace PortfolioV1.Controllers
             {
                 return BadRequest("El campo summary es requerido");
             }
-            if (experience.Title.Length < 3 || experience.Title.Length > 25)
+            if (experience.Title.Length < 3 || experience.Title.Length > 100)
             {
-                return BadRequest("El título debe tener entre 3 y 25 caracteres");
+                return BadRequest("El título debe tener entre 3 y 100 caracteres");
             }
 
             if (experience.Description.Length < 1 || experience.Description.Length > 250)
@@ -103,9 +103,9 @@ namespace PortfolioV1.Controllers
                 return BadRequest("El título es requerido");
             }
 
-            if (request.Title.Length < 3 || request.Title.Length > 25)
+            if (request.Title.Length < 3 || request.Title.Length > 100)
             {
-                return BadRequest("El título debe tener entre 3 y 25 caracteres");
+                return BadRequest("El título debe tener entre 3 y 100 caracteres");
             }
 
             if (request.Description == null)
