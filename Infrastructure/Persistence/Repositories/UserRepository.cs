@@ -1,23 +1,21 @@
-﻿
-
-using Application.Abstractions.ExternalService;
-using Contrats.Request;
+﻿using Application.Abstractions.ExternalService;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistence.Repositories
-{
-    public class UserRepository : IUserRepository
-    {
-        private readonly PortfolioDbContext _context;
+namespace Infrastructure.Persistence.Repositories;
 
-        public UserRepository(PortfolioDbContext context)
-        {
-            _context = context;
-        }
-        public User? GetByUserAndPassword(LoginRequest request)
-        {
-            return _context.Users.FirstOrDefault(x => x.Username == request.Username && x.Password == request.Password);
-        }
+public class UserRepository : IUserRepository
+{
+    private readonly PortfolioDbContext _context;
+
+    public UserRepository(PortfolioDbContext context)
+    {
+        _context = context;
+    }
+
+    public User? GetByUsername(string username)
+    {
+        return _context.Users
+            .FirstOrDefault(x => x.Username == username);
     }
 }

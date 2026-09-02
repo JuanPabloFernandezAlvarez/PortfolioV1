@@ -16,20 +16,22 @@ namespace Infrastructure.ExternalService
     {
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
-        public AuthenticationService(IUserRepository userRepository,IConfiguration configuration)
+        private readonly IPasswordHasher _passwordHasher;
+        public AuthenticationService(IUserRepository userRepository,IConfiguration configuration, IPasswordHasher passwordHasher)
         {
             _userRepository = userRepository;
             _configuration = configuration;
+            _passwordHasher = passwordHasher;
         }
         public string? Login(LoginRequest request)
         {
+            var user = _userRepository.GetByUsername(request.Username);
 
-
-            
-            var user = _userRepository.GetByUserAndPassword(request);
             if (user == null)
                 return string.Empty;
 
+            if (!_passwordHasher.VerifyPassword(request.Password, user.Password))
+                return string.Empty;
 
             var claims = new[]
             {

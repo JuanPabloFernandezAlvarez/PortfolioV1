@@ -46,17 +46,19 @@ builder.Services.AddSwaggerGen(setupAction =>
     builder.Services.AddScoped<IExperienceRepository, ExperienceRepository>();
 
     builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-    builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-    var app = builder.Build();
+var app = builder.Build();
 
-    if (app.Environment.IsDevelopment())
+
+if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
         app.UseSwaggerUI();
     }
 
-    app.UseHttpsRedirection();
+app.UseHttpsRedirection();
     
     app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
