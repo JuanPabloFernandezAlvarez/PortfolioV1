@@ -5,11 +5,10 @@ WORKDIR /src
 # Copiamos todo (necesario porque hay múltiples proyectos referenciados entre sí)
 COPY . .
 
-# Restauramos usando el archivo de solución
-RUN dotnet restore PortfolioV1.slnx
-
-# Publicamos el proyecto de arranque (el que tiene Program.cs / el .csproj ejecutable)
-RUN dotnet publish PortfolioV1/PortfolioV1.csproj -c Release -o /app/publish --no-restore
+# Publicamos directo desde el csproj del proyecto de arranque.
+# dotnet publish restaura automáticamente todos los proyectos referenciados,
+# así que no hace falta pasar por el .slnx (formato no soportado por el SDK 8.0).
+RUN dotnet publish PortfolioV1/PortfolioV1.csproj -c Release -o /app/publish
 
 # --- Etapa 2: runtime (imagen liviana, sin el SDK completo) ---
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
